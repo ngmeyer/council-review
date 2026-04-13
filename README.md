@@ -1,5 +1,10 @@
 # Council Review
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![Claude Code](https://img.shields.io/badge/Claude_Code-Skill-blueviolet?logo=anthropic)](https://claude.ai/code)
+[![GitHub Stars](https://img.shields.io/github/stars/ngmeyer/council-review?style=social)](https://github.com/ngmeyer/council-review)
+[![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)]()
+
 A Claude Code skill that runs decisions, code, plans, and PRs through a council of 5 independent AI advisors who argue, peer-review each other anonymously, and synthesize a verdict you can trust.
 
 Based on [Andrej Karpathy's LLM Council](https://x.com/karpathy) methodology, adapted from [Ole Lehmann's](https://x.com/itsolelehmann) implementation.
