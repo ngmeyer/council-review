@@ -37,16 +37,20 @@ Each advisor uses a different *reasoning method*, not just a different angle. Th
 
 ## Install
 
-Copy the skill directory into your Claude Code skills directory:
+Clone the repo and copy the skill into your Claude Code skills directory:
 
 ```bash
-# Global (all projects)
-mkdir -p ~/.claude/skills/council-review
-cp council-review.md ~/.claude/skills/council-review/SKILL.md
+# Clone
+git clone https://github.com/ngmeyer/council-review.git
+cd council-review
 
-# Per-project
+# Global install (available in all projects)
+mkdir -p ~/.claude/skills/council-review
+cp SKILL.md ~/.claude/skills/council-review/SKILL.md
+
+# Or per-project install
 mkdir -p .claude/skills/council-review
-cp council-review.md .claude/skills/council-review/SKILL.md
+cp SKILL.md .claude/skills/council-review/SKILL.md
 ```
 
 Then use it in Claude Code:
