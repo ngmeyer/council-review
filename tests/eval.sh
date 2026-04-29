@@ -36,8 +36,13 @@ for method in "Inversion" "Decomposition" "Analogy" "Naive questioning" "Depende
 done
 
 # Modes
-for flag in "\`--quick\`" "\`--adversarial\`"; do
+for flag in "\`--quick\`" "\`--adversarial\`" "\`--adaptive\`" "\`--confidence\`" "\`--measure-diversity\`"; do
   if have "$flag" SKILL.md; then pass "Mode flag documented: $flag"; else fail "Mode flag missing: $flag"; fi
+done
+
+# DMAD-collaborative positioning (post 2026-04-29 update)
+for term in "DMAD" "Diverse Multi-Agent" "M3MADBench"; do
+  if have "$term" SKILL.md; then pass "Research framing present: $term"; else fail "Research framing missing: $term"; fi
 done
 
 # Execution steps must all appear (0..5)

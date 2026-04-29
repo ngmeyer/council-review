@@ -5,9 +5,11 @@
 [![GitHub Stars](https://img.shields.io/github/stars/ngmeyer/council-review?style=social)](https://github.com/ngmeyer/council-review)
 [![Platform](https://img.shields.io/badge/Platform-macOS%20%7C%20Linux%20%7C%20Windows-lightgrey)]()
 
-A Claude Code skill that runs decisions, code, plans, and PRs through a council of 5 independent AI advisors who argue, peer-review each other anonymously, and synthesize a verdict you can trust.
+A Claude Code skill that runs decisions, code, plans, and PRs through a **Diverse Multi-Agent Debate (DMAD)** council of 5 advisors with distinct reasoning methods. Advisors collaborate, peer-review each other anonymously, and a chairman synthesizes a verdict.
 
-Based on [Andrej Karpathy's LLM Council](https://x.com/karpathy) methodology, adapted from [Ole Lehmann's](https://x.com/itsolelehmann) implementation. Reasoning method diversity informed by [DMAD (ICLR 2025)](https://openreview.net/forum?id=t6QHYUOQL7).
+This is the collaborative-DMAD pattern — empirically validated to outperform adversarial multi-agent debate ([M3MADBench 2026](https://arxiv.org/pdf/2601.02854); [DMAD ICLR 2025](https://openreview.net/forum?id=t6QHYUOQL7)). For single-critic adversarial stress-testing of a known artifact, use `/adversarial-review` instead.
+
+Based on [Andrej Karpathy's LLM Council](https://github.com/karpathy/llm-council) and [Ole Lehmann's](https://x.com/itsolelehmann) Claude Code adaptation.
 
 ## How It Works
 
@@ -69,11 +71,20 @@ Then use it in Claude Code:
 |------|------|-------|----------|
 | **Full** (default) | none | 11 | High-stakes decisions |
 | **Quick** | `--quick` | 4 | Routine decisions, gut-checks |
-| **Adversarial** | `--adversarial` | 11 | Proposals, yes/no decisions |
+| **Adaptive** | `--adaptive` | 6–26 | Multi-round debate with KS-statistic early stopping (up to 94.5% cost cut on convergent questions) |
+| **Confidence** | `--confidence` | 11 | Confidence-weighted synthesis. Each advisor self-rates and rates peers; chairman weights by calibrated confidence rather than majority vote |
+| **Measure diversity** | `--measure-diversity` | 11 | Score reasoning-footprint overlap; flag theatrical consensus when advisors converge despite different methods |
+| **Adversarial** *(deprecated)* | `--adversarial` | 11 | Retained for backward compatibility; prefer `/adversarial-review` for new use cases |
 
 **Quick mode** runs 3 advisors (Contrarian, Executor, Outsider) + chairman. No peer review. Fast.
 
-**Adversarial mode** assigns 2 advocates (argue FOR), 2 skeptics (argue AGAINST), and 1 neutral analyst. Forces genuine opposition instead of balanced perspectives.
+**Adaptive mode** measures response distribution convergence between rounds via Kolmogorov-Smirnov statistic; halts when shift drops below epsilon for two consecutive rounds. Best for open questions where the council may converge quickly.
+
+**Confidence mode** has each advisor end with `CONFIDENCE: 1-10` and a one-line rationale; peers also rate confidence; the chairman synthesis is weighted by calibrated certainty. Surfaces low-confidence consensus as a yellow flag.
+
+**Measure-diversity mode** scores reasoning-footprint overlap across responses. High overlap (>60%) is flagged as theatrical consensus — the chairman treats it as a single advisor's opinion.
+
+Flags compose: `/council-review --adaptive --confidence "Should we adopt GraphQL?"` runs convergence-stopped, confidence-weighted deliberation.
 
 ## What It Reviews
 
@@ -136,6 +147,10 @@ No manual context-pasting needed. Advisors see your project, not a blank slate.
 - Original concept: **Andrej Karpathy** ([LLM Council](https://github.com/karpathy/llm-council))
 - Claude Code adaptation: **Ole Lehmann** ([@itsolelehmann](https://x.com/itsolelehmann))
 - Reasoning method diversity: **DMAD** ([ICLR 2025](https://openreview.net/forum?id=t6QHYUOQL7))
+- Collaborative > adversarial empirical evidence: **M3MADBench** ([arXiv 2601.02854](https://arxiv.org/pdf/2601.02854), 2026)
+- Confidence-modulated debate protocol: **Demystifying MAD** ([arXiv 2601.19921](https://arxiv.org/pdf/2601.19921), 2026)
+- KS-statistic adaptive stopping: **rachittshah/llmcouncil** (S2 MAD)
+- Diversity-footprint verification: **Counsel** ([Same model, same blind spots](https://counsel.getmason.io/research/model-bindings))
 - Skill by: **Neal Meyer**
 
 ## License
